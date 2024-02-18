@@ -27,8 +27,8 @@ retention_data as (
 select
     date_trunc('month', first_purchase_month) as cohort_month,
     count(distinct r."customerId") as total_customers,
-    count(distinct case when repeat_purchases > 0 then r."customerId" end) as retained_customers,
-    (count(distinct case when repeat_purchases > 0 then r."customerId" end)::float / count(distinct r."customerId")::float) * 100 as retention_rate
+    count(distinct case when repeat_purchases > 1 then r."customerId" end) as retained_customers,
+    (count(distinct case when repeat_purchases > 1 then r."customerId" end)::float / count(distinct r."customerId")::float) * 100 as retention_rate
 from
     {{ ref('cohort') }} c
 left join
